@@ -1,0 +1,33 @@
+--Create a tablespace called "RENTING_COLOMBIA" with one datafile of 150Mb, the name of the datafile should be: renting.dbf (0.1)
+CREATE TABLESPACE RENTINGCOLOMBIA DATAFILE
+'C:\OracleGreisonPemberty\product\12.2.0\dbhome_2\oradata\rentingcolombia.dbf' SIZE 150M 
+AUTOEXTEND ON NEXT 50M MAXSIZE 150M
+EXTENT MANAGEMENT LOCAL
+SEGMENT SPACE MANAGEMENT AUTO
+ONLINE;
+
+--Create a profile named "comercial_medellin" with the following specifications: (0.1) 
+--a) Idle time of 25 minutes 
+--b) Failed login attempts 4 
+--c) Onle one session per user
+
+ALTER SESSION SET "_ORACLE_SCRIPT"=true;
+
+CREATE PROFILE comercial_medellin LIMIT
+SESSIONS_PER_USER 1
+CONNECT_TIME 25
+PASSWORD_LIFE_TIME 4  ;
+
+--Create an user named "amartinez" with only 50Mb of space on tablespace, the profile should be "comercial_medellin" (0.1)
+CREATE USER amartinez
+IDENTIFIED BY amartinez 
+DEFAULT TABLESPACE RENTINGCOLOMBIA
+QUOTA  UNLIMITED ON RENTINGCOLOMBIA
+PROFILE comercial_medellin;
+
+--Add the roles "CONNECT" and "DBA" to user "amartinez" (0.1)
+--. Asigne el rol de DBA
+GRANT DBA TO amartinez; 
+
+--. Permisos para conectarse 
+GRANT CONNECT TO amartinez;
