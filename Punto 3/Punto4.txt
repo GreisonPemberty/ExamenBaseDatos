@@ -1,0 +1,7 @@
+
+--Add the roles "CONNECT" and "DBA" to user "amartinez" (0.1)
+-- Asigne el rol de DBA
+GRANT DBA TO amartinez; 
+
+-- Permisos para conectarse 
+GRANT CONNECT TO amartinez;
